@@ -1,0 +1,13 @@
+# Archives
+*.tar.gz
+*.zip
+
+# Object files
+*.o
+
+# Executables
+*.out
+*.exe
+
+# Text files
+*.txt
