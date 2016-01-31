@@ -1,4 +1,4 @@
-# Assignment: Simple Implementation of cp
+# Assignment: Simple implementation of cp
 
 ## Assignment instructions:
 Write a small system program that creates a file and writes your name in it,
