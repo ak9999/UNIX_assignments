@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
     ssize_t n;
     char buffer[BUFFERSIZE];
 
-    while((n = read(source, buffer, BUFFERSIZE)))
+    while((n = read(source, buffer, BUFFERSIZE)) > 0 )
     {
         write(dest, buffer, n);
     }
