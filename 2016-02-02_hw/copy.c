@@ -1,7 +1,7 @@
 /*
  * Author: Abdullah Khan
  * Date: 2016-01-30
- * Program: cp.c
+ * Program: copy.c
  * Description: Simple implementation of cp
  * Build instructions: make
  */
@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
 {
     if(argc != 3)
     {
-        printf("Usage: cp SOURCE DEST\n");
+        printf("Usage: copy SOURCE DEST\n");
         exit(1);
     }
 

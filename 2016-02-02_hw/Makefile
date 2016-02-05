@@ -7,17 +7,17 @@ DEBUG =- g
 
 all:
 	make save_name
-	make cp
+	make copy
 
 save_name:
 	$(CC) save_name.c -o save_name $(CFLAGS)
 
-cp:
-	$(CC) cp.c -o cp $(CFLAGS)
+copy:
+	$(CC) copy.c -o copy $(CFLAGS)
 
 clean:
 	(rm -f *.o;)
 	(rm -f *.out;)
 	(rm -f *.txt;)
 	(rm -f save_name;)
-	(rm -f cp;)
+	(rm -f copy;)
