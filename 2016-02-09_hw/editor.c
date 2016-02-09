@@ -32,6 +32,11 @@ int main(int argc, char ** argv)
     char * path_name = argv[1];
     int file_desc = open(path_name, O_CREAT|O_RDWR);
 
+    // Get user's record
+    char user_record[80];
+    printf("Enter the record you would like to enter: ");
+    scanf("%79s", user_record);
+
     // 0 bytes from current offset to find current offset
     curr_byte = lseek(file_desc, 0, SEEK_SET);
     printf("Cursor is at the %ldth byte.\n", curr_byte);
