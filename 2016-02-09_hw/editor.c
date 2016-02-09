@@ -13,8 +13,9 @@
 #include <errno.h> // for errno
 
 int getChar(int fd);
-int getBytePos(int row, int fd);
+off_t getBytePos(int row, int fd);
 void putChar(int fd, char c, off_t byte);
+void putBuffer(int fd, char user_buffer[], off_t byte);
 
 int main(int argc, char ** argv)
 {
@@ -30,7 +31,7 @@ int main(int argc, char ** argv)
     char buffer[200];
     int row = atoi(argv[2]);
     char * path_name = argv[1];
-    int file_desc = open(path_name, O_CREAT|O_RDWR);
+    int file_desc = open(path_name, O_CREAT | O_RDWR);
 
     // Get user's record
     char user_record[80];
@@ -55,22 +56,24 @@ int main(int argc, char ** argv)
 	printf("Reading --->%s<---.\n", buffer);
 
 	// Output the contents of buffer onto terminal.
+    lseek(file_desc, -1, SEEK_CUR); // Go back one byte before writing.
 	ssize_t written_bytes = write(1, buffer, read_bytes);
 	printf("Writing %zd bytes.\n", written_bytes);
 	printf("Writing --->%s<---.\n", buffer);
 
 	// Get the byte # at beginning of specified row
-	off_t b = (off_t) getBytePos(row, file_desc);
+	off_t b = getBytePos(row, file_desc);
 	printf("Byte number at row %d is %ld.\n", row, b);
 
 	putChar(file_desc, '\n', b);
-	putChar(file_desc, 'X', b+1);
+	//putChar(file_desc, 'X', b+1);
+    putBuffer(file_desc, user_record, b+1);
 
 	return 0;
 }
 
 // Returns the byte # at the beginning of specified row #
-int getBytePos(int row, int fd)
+off_t getBytePos(int row, int fd)
 {
 	printf("In getBytePosition()...\n");
 	char buf[200];
@@ -109,4 +112,12 @@ void putChar(int fd, char c, off_t byte)
 	lseek(fd, byte, SEEK_SET);
 	// The write starts at the current offset
 	write(fd, &c, 1);
+}
+
+// Writes a buffer into a file at specified byte
+void putBuffer(int fd, char user_buffer[], off_t byte)
+{
+	lseek(fd, byte, SEEK_SET);
+	// The write starts at the current offset
+	write(fd, user_buffer, strlen(user_buffer));
 }
