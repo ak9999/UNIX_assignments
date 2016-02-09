@@ -9,9 +9,8 @@ all:
 	make editor
 
 editor:
-	$(CC) editor.c -o editor $(CFLAGS)
+	$(CC) editor.c -o editor.out $(CFLAGS)
 
 clean:
 	(rm -f *.o;)
 	(rm -f *.out;)
-	(rm -f editor;)
