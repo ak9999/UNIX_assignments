@@ -11,6 +11,9 @@ all:
 editor:
 	$(CC) editor.c -o editor.out $(CFLAGS)
 
+debug:
+	$(CC) editor.c -g -o dedit.out $(CFLAGS)
+
 clean:
 	(rm -f *.o;)
 	(rm -f *.out;)
