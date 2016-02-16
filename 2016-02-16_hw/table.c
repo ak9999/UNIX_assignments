@@ -10,6 +10,8 @@
 #include <stdio.h> /* For standard input and output functions. */
 #include <stdlib.h> /* For exit() */
 #include <sys/stat.h> /* For mode_t */
+#include <sys/types.h>
+#include <unistd.h>
 
 int main(int argc, char ** argv)
 {
@@ -40,10 +42,10 @@ int main(int argc, char ** argv)
 
     printf((file_status.st_mode & S_ISGID) ? "1" : "0");
     printf(": set-group-ID on execution\n");
-    printf((file_status.st_mode & S_ISVTX) ? "1" : "0");
+    printf((file_status.st_mode & 0200) ? "1" : "0"); // S_ISVTX undeclared
     printf(": saved-text (sticky bit)\n");
 
-    printf((file_status.st_mode & S_ISWXU) ? "1" : "0");
+    printf((file_status.st_mode & S_IRWXU) ? "1" : "0");
     printf(": read, write, and execute by user (owner)\n");
 
     printf((file_status.st_mode & S_IRUSR) ? "1" : "0");
@@ -55,7 +57,7 @@ int main(int argc, char ** argv)
     printf((file_status.st_mode & S_IXUSR) ? "1" : "0");
     printf(": execute by user (owner)\n");
 
-    printf((file_status.st_mode & S_ISWXG) ? "1" : "0");
+    printf((file_status.st_mode & S_IRWXG) ? "1" : "0");
     printf(": read, write, and execute by group\n");
 
     printf((file_status.st_mode & S_IRGRP) ? "1" : "0");
