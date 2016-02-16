@@ -31,27 +31,53 @@ int main(int argc, char ** argv)
     printf("# of Links: \t\t\t%lu\n",file_status.st_nlink);
     printf("File inode: \t\t%lu\n",file_status.st_ino);
 
-    printf("File Permissions: \t");
+    printf("File Permissions: \n");
     printf((S_ISDIR(file_status.st_mode)) ? "1" : "0");
+    printf(": directory\n");
 
     printf((file_status.st_mode & S_ISUID) ? "1" : "0");
+    printf(": set-user-ID on execution\n");
+
     printf((file_status.st_mode & S_ISGID) ? "1" : "0");
+    printf(": set-group-ID on execution\n");
     //printf((file_status.st_mode & S_ISVTX) ? "1" : "0");
+    //printf(": saved-text (sticky bit)\n");
 
     //printf((file_status.st_mode & S_ISWXU) ? "1" : "0");
+    //printf(": read, write, and execute by user (owner)\n");
+
     printf((file_status.st_mode & S_IRUSR) ? "1" : "0");
+    printf(": read by user (owner)\n");
+
     printf((file_status.st_mode & S_IWUSR) ? "1" : "0");
+    printf(": write by user (owner)\n");
+
     printf((file_status.st_mode & S_IXUSR) ? "1" : "0");
+    printf(": execute by user (owner)\n");
 
     //printf((file_status.st_mode & S_ISWXG) ? "1" : "0");
+    //printf(": read, write, and execute by group\n");
+
     printf((file_status.st_mode & S_IRGRP) ? "1" : "0");
+    printf(": read by (group)\n");
+
     printf((file_status.st_mode & S_IWGRP) ? "1" : "0");
+    printf(": write by (group)\n");
+
     printf((file_status.st_mode & S_IXGRP) ? "1" : "0");
+    printf(": execute by (group)\n");
 
     printf((file_status.st_mode & S_IRWXO) ? "1" : "0");
+    printf(": read, write, and execute by other (world)\n");
+
     printf((file_status.st_mode & S_IROTH) ? "1" : "0");
+    printf(": read by other (world)\n");
+
     printf((file_status.st_mode & S_IWOTH) ? "1" : "0");
+    printf(": write by other (world)\n");
+
     printf((file_status.st_mode & S_IXOTH) ? "1" : "0");
+    printf(": execute by other (world)\n");
 
     printf("\n");
 
