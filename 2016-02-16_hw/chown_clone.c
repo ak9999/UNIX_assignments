@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 {
     if(argc != 3 || argv[1][0] == '\0')
     {
-        printf("Usage: %s \"OWNER\" \"FILE\"\n", argv[0]);
+        printf("Usage: %s \"USERNAME OR USER ID\" \"FILE\"\n", argv[0]);
         printf("\"OWNER\" can be specified as a numeric user ID or as a username.\n");
         exit(EXIT_FAILURE);
     }
