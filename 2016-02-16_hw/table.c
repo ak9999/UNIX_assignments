@@ -40,11 +40,11 @@ int main(int argc, char ** argv)
 
     printf((file_status.st_mode & S_ISGID) ? "1" : "0");
     printf(": set-group-ID on execution\n");
-    //printf((file_status.st_mode & S_ISVTX) ? "1" : "0");
-    //printf(": saved-text (sticky bit)\n");
+    printf((file_status.st_mode & S_ISVTX) ? "1" : "0");
+    printf(": saved-text (sticky bit)\n");
 
-    //printf((file_status.st_mode & S_ISWXU) ? "1" : "0");
-    //printf(": read, write, and execute by user (owner)\n");
+    printf((file_status.st_mode & S_ISWXU) ? "1" : "0");
+    printf(": read, write, and execute by user (owner)\n");
 
     printf((file_status.st_mode & S_IRUSR) ? "1" : "0");
     printf(": read by user (owner)\n");
@@ -55,8 +55,8 @@ int main(int argc, char ** argv)
     printf((file_status.st_mode & S_IXUSR) ? "1" : "0");
     printf(": execute by user (owner)\n");
 
-    //printf((file_status.st_mode & S_ISWXG) ? "1" : "0");
-    //printf(": read, write, and execute by group\n");
+    printf((file_status.st_mode & S_ISWXG) ? "1" : "0");
+    printf(": read, write, and execute by group\n");
 
     printf((file_status.st_mode & S_IRGRP) ? "1" : "0");
     printf(": read by (group)\n");
