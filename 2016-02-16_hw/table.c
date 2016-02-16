@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
     printf((file_status.st_mode & S_ISGID) ? "1" : "0");
     printf(": set-group-ID on execution\n");
     printf((file_status.st_mode & 01000) ? "1" : "0"); // S_ISVTX undeclared
-    printf(": saved-text (sticky bit)\n");
+    printf(": saved-text (sticky bit)\n"); // S_ISVTX undeclared BECAUSE IT WAS REMOVED FROM LINUX KERNEL
 
     printf((file_status.st_mode & S_IRWXU) ? "1" : "0");
     printf(": read, write, and execute by user (owner)\n");
