@@ -16,3 +16,11 @@
     • 1 for the sticky bit
     • 4 for the file type
     • 9 for access permissions
+
+# Building:
+Just run `make`.
+
+# Running:
+
+To run program 1: execute chown_clone.
+To run program 2: execute table.
