@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
 
     printf((file_status.st_mode & S_ISGID) ? "1" : "0");
     printf(": set-group-ID on execution\n");
-    printf((file_status.st_mode & 0200) ? "1" : "0"); // S_ISVTX undeclared
+    printf((file_status.st_mode & 01000) ? "1" : "0"); // S_ISVTX undeclared
     printf(": saved-text (sticky bit)\n");
 
     printf((file_status.st_mode & S_IRWXU) ? "1" : "0");
