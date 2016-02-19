@@ -2,7 +2,7 @@
 
 # Compile and compiler flags:
 CC = gcc
-CFLAGS = -Wall -pedantic
+CFLAGS = -Wall -std=c11 -D_XOPEN_SOURCE=700 -pedantic
 DEBUG = -g
 
 all:
