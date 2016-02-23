@@ -28,6 +28,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+// path_alloc
+#include "path_alloc.h"
+
 /* function type that is called for each filename */
 typedef	int	Myfunc(const char *, const struct stat *, int);
 
