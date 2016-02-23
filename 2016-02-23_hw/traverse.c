@@ -9,8 +9,6 @@
 
 /* If using a compiler that defaults to C99 or later */
 #if __STDC_VERSION__ >= 199901L
-#define _XOPEN_SOURCE 700
-#elif
 #define _XOPEN_SOURCE 600
 #else
 #define _XOPEN_SOURCE 500
