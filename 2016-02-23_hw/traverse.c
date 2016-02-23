@@ -1,3 +1,23 @@
+/*
+ * Author: Abdullah Khan
+ * Date: 2016-02-23
+ * Program: traverse.c
+ * Description: Descends a file hierachy and returns how many files of
+ * each type there are, and what percentage of the total each type represents.
+ * Build instructions: make
+ */
+
+/* If using a compiler that defaults to C99 or later */
+#if __STDC_VERSION__ >= 199901L
+#define _XOPEN_SOURCE 700
+#else
+#define _XOPEN_SOURCE 600
+#else
+#define _XOPEN_SOURCE 500
+#endif /* __STDC_VERSION__ */
+
+#include <stdio.h>
+#include <stdlib.h>
 #include <dirent.h>
 #include <limits.h>
 
@@ -16,13 +36,20 @@ main(int argc, char *argv[])
 	int		ret;
 
 	if (argc != 2)
-		err_quit("usage:  ftw  <starting-pathname>");
+    {
+        printf("Usage: <pathname>");
+        printf("\n");
+        exit(EXIT_FAILURE);
+    }
 
 	ret = myftw(argv[1], myfunc);		/* does it all */
 
 	ntot = nreg + ndir + nblk + nchr + nfifo + nslink + nsock;
 	if (ntot == 0)
-		ntot = 1;		/* avoid divide by 0; print 0 for all counts */
+    {
+        ntot = 1; /* avoid divide by 0; print 0 for all counts */
+    }
+
 	printf("regular files  = %7ld, %5.2f %%\n", nreg,
 	  nreg*100.0/ntot);
 	printf("directories    = %7ld, %5.2f %%\n", ndir,
@@ -37,6 +64,7 @@ main(int argc, char *argv[])
 	  nslink*100.0/ntot);
 	printf("sockets        = %7ld, %5.2f %%\n", nsock,
 	  nsock*100.0/ntot);
+
 	exit(ret);
 }
 
@@ -60,7 +88,11 @@ myftw(char *pathname, Myfunc *func)
 	if (pathlen <= strlen(pathname)) {
 		pathlen = strlen(pathname) * 2;
 		if ((fullpath = realloc(fullpath, pathlen)) == NULL)
-			err_sys("realloc failed");
+        {
+            printf("realloc failed");
+            printf("\n");
+            exit(EXIT_FAILURE);
+        }
 	}
 	strcpy(fullpath, pathname);
 	return(dopath(func));
@@ -96,7 +128,11 @@ dopath(Myfunc* func)
 	if (n + NAME_MAX + 2 > pathlen) {	/* expand path buffer */
 		pathlen *= 2;
 		if ((fullpath = realloc(fullpath, pathlen)) == NULL)
-			err_sys("realloc failed");
+        {
+            printf("realloc failed");
+            printf("\n");
+            exit(EXIT_FAILURE);
+        }
 	}
 	fullpath[n++] = '/';
 	fullpath[n] = 0;
@@ -115,7 +151,11 @@ dopath(Myfunc* func)
 	fullpath[n-1] = 0;	/* erase everything from slash onward */
 
 	if (closedir(dp) < 0)
-		err_ret("can't close directory %s", fullpath);
+    {
+        printf("can't close directory %s", fullpath);
+        printf("\n");
+        exit(EXIT_FAILURE);
+    }
 	return(ret);
 }
 
@@ -132,20 +172,20 @@ myfunc(const char *pathname, const struct stat *statptr, int type)
 		case S_IFLNK:	nslink++;	break;
 		case S_IFSOCK:	nsock++;	break;
 		case S_IFDIR:	/* directories should have type = FTW_D */
-			err_dump("for S_IFDIR for %s", pathname);
+			printf("for S_IFDIR for %s\n", pathname);
 		}
 		break;
 	case FTW_D:
 		ndir++;
 		break;
 	case FTW_DNR:
-		err_ret("can't read directory %s", pathname);
+		printf("can't read directory %s\n", pathname);
 		break;
 	case FTW_NS:
-		err_ret("stat error for %s", pathname);
+		printf("stat error for %s\n", pathname);
 		break;
 	default:
-		err_dump("unknown type %d for pathname %s", type, pathname);
+		printf("unknown type %d for pathname %s\n", type, pathname);
 	}
 	return(0);
 }
