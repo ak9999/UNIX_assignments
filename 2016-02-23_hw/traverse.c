@@ -10,16 +10,23 @@
 /* If using a compiler that defaults to C99 or later */
 #if __STDC_VERSION__ >= 199901L
 #define _XOPEN_SOURCE 700
-#else
+#elif
 #define _XOPEN_SOURCE 600
 #else
 #define _XOPEN_SOURCE 500
 #endif /* __STDC_VERSION__ */
 
+// STDC includes
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <dirent.h>
 #include <limits.h>
+
+// POSIX includes
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /* function type that is called for each filename */
 typedef	int	Myfunc(const char *, const struct stat *, int);
