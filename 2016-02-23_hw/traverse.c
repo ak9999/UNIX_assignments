@@ -2,7 +2,7 @@
  * Author: Abdullah Khan
  * Date: 2016-02-23
  * Program: traverse.c
- * Description: Descends a file hierachy and returns how many files of
+ * Description: Descends a file hierarchy and returns how many files of
  * each type there are, and what percentage of the total each type represents.
  * Build instructions: make
  */
