@@ -1,9 +1,9 @@
 /*
  * Author: Abdullah Khan
- * Date: 2016-02-23
- * Program: traverse.c
- * Description: Descends a file hierarchy and returns how many files of
- * each type there are, and what percentage of the total each type represents.
+ * Date: 2016-03-01
+ * Program: maketemp.c
+ * Description: Creates a temporary file called /tmp/tempFILE and creates a table
+ * with the time of execution in it.
  * Build instructions: make
  */
 
@@ -20,40 +20,74 @@
 #include <string.h>
 #include <time.h> // To get the current date and time.
 
-// POSIX includes
-#include <unistd.h>
-#include <fcntl.h> // open()
-#include <sys/stat.h> // for file permissions
-
 int main(int argc, char ** argv)
 {
-	char tmp_template[] = "/tmp/temp.XXXXXX";
-	int file_desc = mkstemp(tmp_template);
-	printf("Temporary file %s created", tmp_template);
-	printf("\n");
+	char tmp_template[] = "/tmp/tempFILE";
 
-	/* Check if open was successful, if not, exit. */
-    if(file_desc == -1)
-    {
-        printf("Couldn\'t open file. Exiting.\n");
-        exit(EXIT_FAILURE);
-    }
+	char header[] = "Day Mon  # Time     Year\n";
+	char dashes[] = "--- ---  - -------- ----\n";
 
 	// Our current date and time since the Epoch
 	char buffer[100];
 	time_t current = time(NULL);
-	//struct tm *t = localtime(&current);
-	//strftime(buffer, sizeof(buffer)-1, "%d %m %Y %H:%M", t);
-	strncpy(buffer, ctime(&current), sizeof(buffer));
 
-	if(current != -1)
-	{
+	FILE * pf;
+	pf = fopen(tmp_template, "a+");
+	printf("Temporary file %s created or accessed", tmp_template);
+	printf("\n");
+
+	// Check if file is open.
+    if(pf != NULL)
+    {
 		// Convert time from seconds since Epoch to localtime.
-		write(file_desc, buffer, sizeof(buffer));
-	}
+		strncpy(buffer, ctime(&current), sizeof(buffer));
+    	
+    	// Check if the file already has the header.
+    	char line[100];
+    	fgets(line, sizeof(line), pf);
+    	if(strcmp(header,line) != 0)
+    	{
+    		// If not, we add the header, the dashes, and timestamp.
+    		fputs(header, pf);
+    		fputs(dashes, pf);
+
+    		if(current != -1)
+			{
+				fputs(buffer, pf);
+			}
+
+			// Unless we can't for some reason...
+			else
+			{
+				printf("Failed to get time.\n");
+				exit(EXIT_FAILURE);
+			}
+    	}
+
+    	else
+    	{
+    		// If we have a header just append the timestamp.
+	    	if(current != -1)
+			{
+				fputs(buffer, pf);
+			}
+
+			else
+			{
+				printf("Failed to get time.\n");
+				exit(EXIT_FAILURE);
+			}
+    	}
+    }
+
+    else
+    {
+    	printf("Failed to open file.");
+    	exit(EXIT_FAILURE);
+    }
 
 	// Close the file.
-	close(file_desc);
+	fclose(pf);
 
 	// Exit.
 	exit(EXIT_SUCCESS);
