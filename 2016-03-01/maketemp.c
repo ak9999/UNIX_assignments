@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
 	if(current != -1)
 	{
 		// Convert time from seconds since Epoch to localtime.
-		write(file_desc, buffer, 100);
+		write(file_desc, buffer, sizeof(buffer));
 	}
 
 	// Close the file.
