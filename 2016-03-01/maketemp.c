@@ -18,15 +18,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <limits.h>
+#include <time.h> // To get the current date and time.
 
 // POSIX includes
 #include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <fcntl.h> // open()
+#include <sys/stat.h> // for file permissions
 
 int main(int argc, char ** argv)
 {
+	char tmp_template[] = "/tmp/temp.XXXXXX";
+	int file_desc = mkstemp(tmp_template);
+	printf("Temporary file %s created", tmp_template);
+	printf("\n");
+
+	/* Check if open was successful, if not, exit. */
+    if(file_desc == -1)
+    {
+        printf("Couldn\'t open file. Exiting.\n");
+        exit(EXIT_FAILURE);
+    }
+
+	// Our current date and time since the Epoch
+	char buffer[100];
+	time_t current = time(NULL);
+	//struct tm *t = localtime(&current);
+	//strftime(buffer, sizeof(buffer)-1, "%d %m %Y %H:%M", t);
+	strncpy(buffer, ctime(&current), sizeof(buffer));
+
+	if(current != -1)
+	{
+		// Convert time from seconds since Epoch to localtime.
+		write(file_desc, buffer, 100);
+	}
+
+	// Close the file.
+	close(file_desc);
+
+	// Exit.
 	exit(EXIT_SUCCESS);
 }
