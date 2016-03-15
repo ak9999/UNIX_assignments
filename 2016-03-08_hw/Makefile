@@ -7,6 +7,7 @@ DEBUG = -g
 
 all:
 	make find_users
+	make group_names
 
 find_users:
 	$(CC) find_users.c -o get_users $(CFLAGS)
