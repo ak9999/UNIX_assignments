@@ -23,7 +23,7 @@
 #include <pwd.h>
 #include <grp.h>
 
-int main(int argc, char ** argv)
+int main(void)
 {
 	struct passwd *pass;
 	setpwent(); // Takes us to beginning of password database.
