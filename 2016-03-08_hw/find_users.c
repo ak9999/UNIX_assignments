@@ -1,9 +1,8 @@
 /*
  * Author: Abdullah Khan
  * Date: 2016-03-01
- * Program: maketemp.c
- * Description: Creates a temporary file called /tmp/tempFILE and creates a table
- * with the time of execution in it.
+ * Program: find_users.c
+ * Description: Prints out usernames with UID and GID
  * Build instructions: make
  */
 
