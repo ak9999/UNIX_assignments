@@ -20,7 +20,6 @@
 // UNIX includes
 #include <unistd.h>
 #include <pwd.h>
-#include <grp.h>
 
 int main(void)
 {
