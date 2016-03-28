@@ -28,14 +28,18 @@ void crack_passphrase(char * enc_phrase, char * username, FILE * dict);
 
 int main(int argc, char ** argv)
 {
-	if(argc != 2) { return -1; }
+	//if(argc != 2) { return -1; }
 	
 	if(geteuid() != 0) { printf("You need root privileges!\n"); exit(EXIT_SUCCESS); }
-	char * name = argv[1];
 	struct spwd * shadow;
-	shadow = getspnam(name);
-	printf("%s: %s\n",
+	setspent(); // Initialize position in /etc/shadow
+
+	while((shadow = getspent()) != NULL) // Iterate through each entry
+	{
+		printf("%s: %s\n",
 			shadow->sp_namp,
 			shadow->sp_pwdp);
+	}
+	
 	exit(EXIT_SUCCESS);
 }
