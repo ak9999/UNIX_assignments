@@ -19,12 +19,10 @@ Build instructions: make
 #include <string.h>
 
 // UNIX includes
-#include <unistd.h>
-#include <sys/types.h>
+#include <unistd.h> // for crypt
 #include <shadow.h> // To read /etc/shadow
-#include <crypt.h> // To encrypt passphrases
 
-void crack_passphrase(char * enc_phrase, char * username, FILE * dict);
+void crack_passphrase(char * enc_phrase, char * username, char * dict);
 
 int main(int argc, char ** argv)
 {
@@ -37,15 +35,39 @@ int main(int argc, char ** argv)
 	// If we don't have root permissions, notify the user and quit.
 	if(geteuid() != 0) { printf("You need root privileges!\n"); exit(EXIT_SUCCESS); }
 
-	FILE * dictionary = fopen(argv[1], "r"); // Open our dictionary for reading.
+	char * dictionary = argv[1];
+
 	struct spwd * shadow;
 	setspent(); // Initialize position in /etc/shadow
 
-	char * word[255];
+	char * enc_pass;
+	char * username;
 
 	while((shadow = getspent()) != NULL) // Iterate through each entry
 	{
-
+		username = shadow->sp_namp;
+		enc_pass = shadow->sp_pwdp;
+		crack_passphrase(enc_pass, username, dictionary);
 	}
+
 	exit(EXIT_SUCCESS);
+}
+
+void crack_passphrase(char * enc_phrase, char * username, char * dict)
+{
+	FILE * dictionary = fopen(dict, "r");
+	char buffer[256];
+	while(1)
+	{
+		if(!fgets(buffer, sizeof buffer, dictionary)) { break; }
+		char salt[21];
+		strncpy(salt, enc_phrase, 21);
+		char * potential_passphrase = crypt(buffer, salt);
+		if(potential_passphrase == enc_phrase)
+		{
+			printf("User: %s\n Password: %s\n", username, buffer);
+			break;
+		}
+		else { exit(EXIT_FAILURE); }
+	}
 }
