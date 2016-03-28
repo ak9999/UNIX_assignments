@@ -8,7 +8,7 @@ all:
 	make cracker
 
 cracker:
-	$(CC) shadow_cracker.c -o cracker $(CFLAGS)
+	$(CC) shadow_cracker.c -lcrypt -o cracker $(CFLAGS)
 
 printer:
 	$(CC) shadow_printer.c -o printer $(CFLAGS)
