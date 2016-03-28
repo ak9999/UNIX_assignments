@@ -40,14 +40,9 @@ int main(int argc, char ** argv)
 	struct spwd * shadow;
 	setspent(); // Initialize position in /etc/shadow
 
-	char * enc_pass;
-	char * username;
-
 	while((shadow = getspent()) != NULL) // Iterate through each entry
 	{
-		username = shadow->sp_namp;
-		enc_pass = shadow->sp_pwdp;
-		crack_passphrase(enc_pass, username, dictionary);
+		crack_passphrase(shadow->sp_pwdp, shadow->sp_namp, dictionary);
 	}
 
 	exit(EXIT_SUCCESS);
@@ -57,17 +52,18 @@ void crack_passphrase(char * enc_phrase, char * username, char * dict)
 {
 	FILE * dictionary = fopen(dict, "r");
 	char buffer[256];
-	while(1)
+	//while(1)
+	while((fscanf(dictionary, "%s", buffer) != EOF))
 	{
-		if(!fgets(buffer, sizeof buffer, dictionary)) { break; }
-		char salt[21];
-		strncpy(salt, enc_phrase, 21);
+		//if(!fgets(buffer, sizeof buffer, dictionary)) { break; }
+		char salt[20];
+		strncpy(salt, enc_phrase, 20);
+		printf("%s\n", salt);
 		char * potential_passphrase = crypt(buffer, salt);
 		if(potential_passphrase == enc_phrase)
 		{
 			printf("User: %s\n Password: %s\n", username, buffer);
 			break;
 		}
-		else { exit(EXIT_FAILURE); }
 	}
 }
