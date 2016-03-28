@@ -42,7 +42,8 @@ int main(int argc, char ** argv)
 
 	while((shadow = getspent()) != NULL) // Iterate through each entry
 	{
-		crack_passphrase(shadow->sp_pwdp, shadow->sp_namp, dictionary);
+		if((strcmp(shadow->sp_pwdp, "!!") != 0) && (strcmp(shadow->sp_pwdp, "*") != 0))
+			crack_passphrase(shadow->sp_pwdp, shadow->sp_namp, dictionary);
 	}
 
 	exit(EXIT_SUCCESS);
@@ -54,13 +55,12 @@ void crack_passphrase(char * enc_phrase, char * username, char * dict)
 	char buffer[256];
 	while((fscanf(dictionary, "%s", buffer) != EOF))
 	{
-		char salt[20];
+		char * salt = malloc(sizeof(char) * 20);
 		strncpy(salt, enc_phrase, 20);
-		printf("%s\n", salt);
 		char * potential_passphrase = crypt(buffer, salt);
-		if(potential_passphrase == enc_phrase)
+		if(strcmp(potential_passphrase, enc_phrase) == 0)
 		{
-			printf("User: %s\n Password: %s\n", username, buffer);
+			printf("User: %s\nPassword: %s\n", username, buffer);
 			break;
 		}
 	}
