@@ -52,10 +52,8 @@ void crack_passphrase(char * enc_phrase, char * username, char * dict)
 {
 	FILE * dictionary = fopen(dict, "r");
 	char buffer[256];
-	//while(1)
 	while((fscanf(dictionary, "%s", buffer) != EOF))
 	{
-		//if(!fgets(buffer, sizeof buffer, dictionary)) { break; }
 		char salt[20];
 		strncpy(salt, enc_phrase, 20);
 		printf("%s\n", salt);
