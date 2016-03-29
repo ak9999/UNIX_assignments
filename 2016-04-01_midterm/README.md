@@ -6,6 +6,7 @@ Run `make`
 # Usage
 
 The `cracker` program can be run two ways:
+
 1. `cracker <dictionary file>`
     The program will run the attack against /etc/shadow.
     You will need root privileges to read /etc/shadow.
