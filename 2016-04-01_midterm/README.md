@@ -15,7 +15,7 @@ The `cracker` program can be run two ways:
 2. `cracker <path/to/shadow/file> <dictionary file>`
     
     You can also run the program against a shadow file of your choosing,
-    (in case you've already got one you can read without needing root)
+    (in case you've already got one you can read without needing root).
 
 # How it works
 The attack will read the first entry in the shadow file, then start
