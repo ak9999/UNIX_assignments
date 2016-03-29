@@ -26,10 +26,8 @@ Build instructions: make printer
 
 void crack_passphrase(char * enc_phrase, char * username, FILE * dict);
 
-int main(int argc, char ** argv)
+int main(void)
 {
-	//if(argc != 2) { return -1; }
-	
 	if(geteuid() != 0) { printf("You need root privileges!\n"); exit(EXIT_SUCCESS); }
 	struct spwd * shadow;
 	setspent(); // Initialize position in /etc/shadow
