@@ -14,8 +14,11 @@
 
 #define BUFFSIZE 4096
 #define FILESIZE 1474560
+
 void Input(int);
 void PrintStatus(int status);
+void printRusage(const struct rusage *ru);
+
 int main(int argc, char *argv[])
 {
     if(argc != 2) { printf("Pass a file as a parameter.\n"); return -1; }
@@ -31,7 +34,7 @@ int main(int argc, char *argv[])
         {
             Input(fd);
             printf("Child process, ret=%d.\n", ret);
-            status=wait3(&status, WUNTRACED, &usage);
+            status=wait(&status);
             switch(n)
             {
                 case 0:
@@ -48,7 +51,7 @@ int main(int argc, char *argv[])
         else
         {
             printf("Parent process, child ret==%d.\n", ret);
-            wait3(&status, WNOHANG, &usage);
+            wait3(&status, WUNTRACED, &usage);
             PrintStatus(status);
         }
     }
@@ -69,9 +72,11 @@ void Input(int filedes)
         sleep(2);
     }
 }
+
 void PrintStatus(int status)
 {
     int lower_8_bits;
+    char * errorMsg = "The child exit status was: \n";
     if ((lower_8_bits=WIFEXITED(status))==true)
     {
         printf("WIFEXITED(status)=%d\n",
@@ -79,6 +84,7 @@ void PrintStatus(int status)
         printf("Exit status for child=%d\n",
                WEXITSTATUS(status));
         printf("lower_8_bits=%x\n", status);
+        psignal(status, errorMsg);
     }
     else if (WIFSIGNALED(status)==true)
     {
@@ -88,6 +94,7 @@ void PrintStatus(int status)
                WTERMSIG(status));
         printf("Exit status for child=%d\n",
                WCOREDUMP(status));
+        psignal(status, errorMsg);
     }
     else if (WIFSTOPPED(status)==true)
     {
@@ -95,5 +102,6 @@ void PrintStatus(int status)
                WIFSTOPPED(status));
         printf("Exit status for child=%d\n",
                WSTOPSIG(status));
+        psignal(status, errorMsg);
     }
 }
