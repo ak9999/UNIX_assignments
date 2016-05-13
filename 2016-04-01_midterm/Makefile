@@ -6,6 +6,7 @@ CFLAGS = -Wall -std=c11 -pedantic
 
 all:
 	make cracker
+	make printer
 
 cracker:
 	$(CC) shadow_cracker.c -lcrypt -o cracker $(CFLAGS)
